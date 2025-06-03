@@ -28,7 +28,7 @@ export const addBlog = async (req, res) => {
         if (!title || !description || !category || !subSections) {
             return res.status(400).json({ message: "All fields are required" })
         }
-        const file = await uploadImageToCloudinary(req.file.path)
+        const file = await uploadImageToCloudinary(req.file?.path)
         if (!file) return res.status(500).json({ message: "Image upload failed" })
         const parsedSubSections = JSON.parse(subSections);
         const blog = await Blog.create({

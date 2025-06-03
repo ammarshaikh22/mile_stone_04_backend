@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const blogSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    category: [{ type: String }],
+    category: [{ type: String, required: true }],
+    tags: [{ type: String, required: true }],
     image: { type: String, required: true },
     date: { type: String, required: true, default: new Date().toLocaleDateString() },
     user: { type: String, required: true },

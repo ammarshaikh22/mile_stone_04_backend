@@ -5,8 +5,11 @@ import { connect } from './src/db/connect.js'
 import route from './src/router/router.js'
 import authRoute from './src/router/auth.route.js'
 import cookieParser from 'cookie-parser'
+
+
 const app = express()
-app.use(express.json())
+app.use(express.json({ limit: "20mb" }))
+app.use(express.urlencoded({ limit: "20mb", extended: true }))
 app.use(cor())
 app.use(cookieParser())
 app.use('/api/v2', route)
