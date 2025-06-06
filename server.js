@@ -2,7 +2,7 @@ import express from 'express'
 import 'dotenv/config'
 import cor from 'cors'
 import { connect } from './src/db/connect.js'
-import route from './src/api/router.js'
+import route from './src/api/blog.router.js'
 import authRoute from './src/api/auth.route.js'
 import cookieParser from 'cookie-parser'
 
