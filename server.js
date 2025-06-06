@@ -8,11 +8,11 @@ import cookieParser from 'cookie-parser'
 
 
 const app = express()
-app.use(express.json({ limit: "20mb" }))
-app.use(express.urlencoded({ limit: "20mb", extended: true }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cor(
     {
-        origin: ["http://localhost:8000","https://ai-blogs.up.railway.app/"],
+        origin: ["https://ai-blogs.up.railway.app/", "http://localhost:8000"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
     }
