@@ -6,13 +6,12 @@ import route from './src/api/blog.router.js'
 import authRoute from './src/api/auth.route.js'
 import cookieParser from 'cookie-parser'
 
-
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cor(
     {
-        origin: ["https://ai-blogs.up.railway.app/", "http://localhost:8000"],
+        origin: ["https://ai-blogs.up.railway.app/", "http://localhost:8000","http://localhost:3000"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
     }
