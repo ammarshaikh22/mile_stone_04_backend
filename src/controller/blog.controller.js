@@ -13,6 +13,19 @@ export const getAllBlogs = async (req, res) => {
         res.status(500).json({ message: "failed", error: error.message })
     }
 }
+//Get single the Blog from the database
+export const getSingleBlogById = async (req, res) => {
+    try {
+        const { id } = req.params
+        const blog = await Blog.findById(id)
+        if (!blog) {
+            return res.status(404).json({ message: "Blog not found" })
+        }
+        res.status(200).json({ message: "success", data: blog })
+    } catch (error) {
+        res.status(500).json({ message: "failed", error: error.message })
+    }
+}
 
 //Post the single blog in the data base
 export const addBlog = async (req, res) => {
