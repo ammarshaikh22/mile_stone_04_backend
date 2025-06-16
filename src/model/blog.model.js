@@ -7,7 +7,10 @@ const blogSchema = new mongoose.Schema({
     tags: [{ type: String, required: true }],
     image: { type: String, required: true },
     date: { type: String, required: true, default: new Date().toLocaleDateString() },
-    user: { type: String, required: true },
+    user: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
+     },
     subSections: [{
         _id: false,
         title: { type: String, required: true },

@@ -4,7 +4,7 @@ import Blog from "../model/blog.model.js"
 //Get All the Blogs from the database
 export const getAllBlogs = async (req, res) => {
     try {
-        const blogs = await Blog.find({})
+        const blogs = await Blog.find().populate('user','name profileImage')
         if (blogs.length === 0) {
             return res.status(404).json({ message: "No blogs found yet please add one" })
         }
@@ -17,7 +17,7 @@ export const getAllBlogs = async (req, res) => {
 export const getSingleBlogById = async (req, res) => {
     try {
         const { id } = req.params
-        const blog = await Blog.findById(id)
+        const blog = await Blog.findById(id).populate('user','name profileImage')
         if (!blog) {
             return res.status(404).json({ message: "Blog not found" })
         }
