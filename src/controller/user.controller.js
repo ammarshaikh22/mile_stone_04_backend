@@ -133,6 +133,7 @@ export const getUser = async (req, res) => {
       email: data.email,
       profileImage: data.profileImage,
       isAdmin: data.isAdmin,
+      _id:data._id
     };
     return res
       .status(200)

@@ -5,7 +5,7 @@ import Blog from "../model/blog.model.js";
 export const getAllBlogs = async (req, res) => {
   try {
     const blogs = await Blog.find().populate("user", "name profileImage");
-    if (blogs.length === 0) {
+    if (blogs.length === 0) { 
       return res
         .status(404)
         .json({ message: "No blogs found yet please add one" });
