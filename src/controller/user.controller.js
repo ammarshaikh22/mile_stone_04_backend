@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../model/user.model.js";
 import sendMail from "../utils/mailer.js";
+import Blog from "../model/blog.model.js";
 
 //signup user
 export const signup = async (req, res) => {
@@ -127,6 +128,8 @@ export const getUser = async (req, res) => {
       return res.status(400).json({ message: "Unauthorized no user found" });
     const user_id = req.user;
     const data = await User.findById(user_id);
+    const userBlogs = await Blog.find(data._id ? { user: data._id } : {});
+    console.log(userBlogs)
     if (!data) {
       return res.status(404).json({ message: "User not font" });
     }
@@ -135,7 +138,8 @@ export const getUser = async (req, res) => {
       email: data.email,
       profileImage: data.profileImage,
       isAdmin: data.isAdmin,
-      _id: data._id
+      _id: data._id,
+      blogs: userBlogs
     };
     return res
       .status(200)
