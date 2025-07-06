@@ -55,8 +55,9 @@ export const Login = async (req, res) => {
       expiresIn: "1d",
     });
     res.cookie("token", token, {
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
     });
     user.isLogin = true;
     await user.save();
