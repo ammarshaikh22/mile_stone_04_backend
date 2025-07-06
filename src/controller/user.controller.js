@@ -56,7 +56,7 @@ export const Login = async (req, res) => {
     });
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.COOKIE_SECURE === "true",
       sameSite: "lax",
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
     });
@@ -135,7 +135,7 @@ export const getUser = async (req, res) => {
       email: data.email,
       profileImage: data.profileImage,
       isAdmin: data.isAdmin,
-      _id:data._id
+      _id: data._id
     };
     return res
       .status(200)
