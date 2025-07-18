@@ -57,9 +57,10 @@ export const Login = async (req, res) => {
     });
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.COOKIE_SECURE === "true",
+      secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+      path: "/",
+      maxAge: 24 * 60 * 60 * 1000
     });
     user.isLogin = true;
     await user.save();
@@ -129,7 +130,7 @@ export const getUser = async (req, res) => {
     const user_id = req.user;
     const data = await User.findById(user_id);
     const userBlogs = await Blog.find(data._id ? { user: data._id } : {});
-    console.log(userBlogs)
+    console.log(userBlogs);
     if (!data) {
       return res.status(404).json({ message: "User not font" });
     }
@@ -139,7 +140,7 @@ export const getUser = async (req, res) => {
       profileImage: data.profileImage,
       isAdmin: data.isAdmin,
       _id: data._id,
-      blogs: userBlogs
+      blogs: userBlogs,
     };
     return res
       .status(200)
