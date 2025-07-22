@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors(
     {
-        origin: ["http://localhost:3000","https://ai-blogs-frontend.netlify.app"],
+        origin: ["http://localhost:3000","http://localhost:3001","https://ai-blogs-frontend.netlify.app"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
     }
