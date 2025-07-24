@@ -7,6 +7,7 @@ import authRoute from './src/api/auth.route.js'
 import cookieParser from 'cookie-parser'
 
 const app = express()
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors(
@@ -16,7 +17,6 @@ app.use(cors(
         credentials: true
     }
 ))
-app.use(cookieParser())
 app.use('/api/v2', route)
 app.use('/api/v1', authRoute)
 const port = process.env.PORT
