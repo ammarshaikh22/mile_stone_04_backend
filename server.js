@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors(
     {
-        origin: ["http://localhost:3000","http://localhost:3001","https://ai-blogs-frontend.netlify.app","https://mile-stone-04-ogov8630w-ammarshaikh22s-projects.vercel.app"],
+        origin: ["http://localhost:3000","http://localhost:3001","https://ai-blogs-frontend.netlify.app"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
     }
