@@ -19,7 +19,7 @@ app.use(cors(
 ))
 app.use('/api/v2', route)
 app.use('/api/v1', authRoute)
-const port = process.env.PORT
+const port = process.env.PORT || 5000
 
 app.get("/", (req, res) => {
   res.send("API is working fine");
