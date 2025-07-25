@@ -41,7 +41,6 @@ export const addBlog = async (req, res) => {
     }
     if (!req.file)
       return res.status(400).json({ message: "Image is required" });
-    console.log(req.file.path);
     const file = await uploadImageToCloudinary(req.file?.path);
     if (!file) return res.status(500).json({ message: "Image upload failed" });
     const parsedSubSections = JSON.parse(subSections);

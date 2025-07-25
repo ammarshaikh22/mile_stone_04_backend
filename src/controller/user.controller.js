@@ -3,12 +3,11 @@ import jwt from "jsonwebtoken";
 import User from "../model/user.model.js";
 import sendMail from "../utils/mailer.js";
 import Blog from "../model/blog.model.js";
-
+import { uploadImageToCloudinary } from "../utils/cloud.midilware.js";
 //signup user
 export const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    console.log(name, email, password);
     if (!name || !email || !password) {
       return res.status(400).json({ message: "please fill all fields" });
     }
@@ -94,13 +93,17 @@ export const verify = async (req, res) => {
   }
 };
 
-//forget password
-export const forget = async (req, res) => {
+//updatepassword
+export const updatePassword = async (req, res) => {
   try {
-    const { email, newPassword, confirmPassword } = req.body;
+    const { currentPassword, email, newPassword, confirmPassword } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "user not found" });
+    }
+    const isMatch = await bcryptjs.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(404).json({ message: "current password not matched" });
     }
     if (confirmPassword !== newPassword) {
       return res.status(404).json({ message: "confirm password not matched" });
@@ -115,7 +118,7 @@ export const forget = async (req, res) => {
     });
     return res
       .status(200)
-      .json({ message: "password reset successfully", success: true });
+      .json({ message: "password Updated successfully", success: true });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -129,7 +132,6 @@ export const getUser = async (req, res) => {
     const user_id = req.user;
     const data = await User.findById(user_id);
     const userBlogs = await Blog.find(data._id ? { user: data._id } : {});
-    console.log(userBlogs);
     if (!data) {
       return res.status(404).json({ message: "User not font" });
     }
@@ -165,5 +167,30 @@ export const logout = async (req, res) => {
     return res.status(200).json({ message: "logout successfully" });
   } catch (error) {
     return res.status(500).json({ error: error.message });
+  }
+};
+
+//update user deatils
+export const updateUser = async (req, res) => {
+  try {
+    if (!req.user)
+      return res.status(400).json({ message: "Unauthorized no user found" });
+    const user_id = req.user;
+    const data = await User.findById(user_id);
+    if (!data) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const { name, email } = req.body;
+    if (!req.file)
+      return res.status(400).json({ message: "Image is required" });
+    const file = await uploadImageToCloudinary(req.file?.path);
+    if (!file) return res.status(500).json({ message: "Image upload failed" });
+    data.name = name || data.name;
+    data.email = email || data.email;
+    data.profileImage  = file || data.profileImage;
+    await data.save();
+    return res.status(200).json({ message: "User updated successfully", data });
+  } catch (error) {
+    return res.status(500).json({ message: error });
   }
 };
