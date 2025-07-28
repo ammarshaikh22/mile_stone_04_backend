@@ -153,22 +153,15 @@ export const getUser = async (req, res) => {
 //get all user details
 export const getAllUser = async (req, res) => {
   try {
-    const data = await User.find({});
-    const userBlogs = await Blog.find(data._id ? { user: data._id } : {});
+    const data = await User.find({})
+      .select("-password -verifyToken -verifyTokenExpiry -forgotPassword -forgotPasswordExpiry")
+      .sort({ createdAt: -1 });
     if (!data) {
-      return res.status(404).json({ message: "User not font" });
+      return res.status(404).json({ message: "Users not font" });
     }
-    const someData = {
-      name: data.name,
-      email: data.email,
-      profileImage: data.profileImage,
-      isAdmin: data.isAdmin,
-      _id: data._id,
-      blogs: userBlogs,
-    };
     return res
       .status(200)
-      .json({ message: "user data get successfully", data: someData });
+      .json({ message: "user data get successfully", data: data });
   } catch (error) {
     return res.status(500).json({ message: error });
   }
