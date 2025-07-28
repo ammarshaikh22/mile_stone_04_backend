@@ -59,6 +59,7 @@ export const Login = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
+      path: "/",
     });
     user.isLogin = true;
     await user.save();
@@ -154,7 +155,9 @@ export const getUser = async (req, res) => {
 export const getAllUser = async (req, res) => {
   try {
     const data = await User.find({})
-      .select("-password -verifyToken -verifyTokenExpiry -forgotPassword -forgotPasswordExpiry")
+      .select(
+        "-password -verifyToken -verifyTokenExpiry -forgotPassword -forgotPasswordExpiry"
+      )
       .sort({ createdAt: -1 });
     if (!data) {
       return res.status(404).json({ message: "Users not font" });
@@ -203,7 +206,7 @@ export const updateUser = async (req, res) => {
     if (!file) return res.status(500).json({ message: "Image upload failed" });
     data.name = name || data.name;
     data.email = email || data.email;
-    data.profileImage  = file || data.profileImage;
+    data.profileImage = file || data.profileImage;
     await data.save();
     return res.status(200).json({ message: "User updated successfully", data });
   } catch (error) {
