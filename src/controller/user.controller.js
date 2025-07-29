@@ -59,9 +59,8 @@ export const Login = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      maxAge: 24 * 60 * 60 * 1000, 
       path: "/",
-      Domain: process.env.NODE_ENV === "production" ? "https://mile-stone-04-phi.vercel.app" : "localhost",
     });
     user.isLogin = true;
     await user.save();
