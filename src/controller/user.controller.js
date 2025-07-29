@@ -4,6 +4,7 @@ import User from "../model/user.model.js";
 import sendMail from "../utils/mailer.js";
 import Blog from "../model/blog.model.js";
 import { uploadImageToCloudinary } from "../utils/cloud.midilware.js";
+import { Domain } from "domain";
 //signup user
 export const signup = async (req, res) => {
   try {
@@ -60,6 +61,7 @@ export const Login = async (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       path: "/",
+      Domain: process.env.DOMAIN || "localhost",
     });
     user.isLogin = true;
     await user.save();
