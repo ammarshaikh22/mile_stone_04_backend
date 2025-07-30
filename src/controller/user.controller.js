@@ -36,7 +36,7 @@ export const signup = async (req, res) => {
 export const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email && !password) {
+    if (!email || !password) {
       return res.status(400).json({ message: "invalid credentials" });
     }
     const user = await User.findOne({ email });
@@ -45,7 +45,7 @@ export const Login = async (req, res) => {
     }
     const MatchDecodePass = await bcryptjs.compare(password, user.password);
     if (!MatchDecodePass) {
-      return res.status(402).json({ message: "password not matched" });
+      return res.status(402).json({ message: "invalid credentials" });
     } else if (!user.isVerified) {
       return res.status(401).json({ message: "please verify your email" });
     }
